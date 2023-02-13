@@ -9,7 +9,7 @@ public class User {
 
     @Id
     @GeneratedValue
-    @Column(name = "id", nullable = false)
+    @Column(name = "user_id", nullable = false)
     private int Id;
 
     @Column(name = "user_name")

@@ -48,16 +48,18 @@ public class QuoteService {
         List<Quote> quoteList = new ArrayList<>();
         quoteRepository.findAll().forEach(quote -> quoteList.add(quote));
         List<Quote> bestQuotes = new ArrayList<>();
-
-        Collections.sort(quoteList, new Comparator<Quote>() {
-            @Override
-            public int compare(Quote o1, Quote o2) {
-                return o2.getScore() - o1.getScore();
+        if (quoteList.size() >= 10) {
+            Collections.sort(quoteList, new Comparator<Quote>() {
+                @Override
+                public int compare(Quote o1, Quote o2) {
+                    return o2.getScore() - o1.getScore();
+                }
+            });
+            for (int i = 0; i < 10; i++) {
+                bestQuotes.add(quoteList.get(i));
             }
-        });
-        for (int i = 0; i < 10; i++) {
-            bestQuotes.add(quoteList.get(i));
+            return bestQuotes;
         }
-        return bestQuotes;
-    }
+        else return quoteList;
+        }
 }

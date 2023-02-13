@@ -1,0 +1,46 @@
+package com.example.kamelonexamplepro.service;
+
+import com.example.kamelonexamplepro.model.Quote;
+import com.example.kamelonexamplepro.model.Score;
+import com.example.kamelonexamplepro.repository.QuoteRepository;
+import com.example.kamelonexamplepro.repository.ScoreRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+public class ScoreService {
+
+    private ScoreRepository scoreRepository;
+
+    private QuoteRepository quoteRepository;
+
+    @Autowired
+    public ScoreService(ScoreRepository scoreRepository, QuoteRepository quoteRepository) {
+        this.scoreRepository = scoreRepository;
+        this.quoteRepository = quoteRepository;
+    }
+
+    public void saveScore(Score score){
+        scoreRepository.save(score);
+    }
+
+    public List<Score> getAllScores() {
+        List<Score> scores = new ArrayList<>();
+        scoreRepository.findAll().forEach(score -> scores.add(score));
+        return scores;
+    }
+
+    public List<Score> getHistory(int id){
+        List<Score> scores = scoreRepository.findAll();
+        List<Score> scoreList = new ArrayList<>();
+        for (int i = 0; i < scores.size(); i++) {
+            if (scores.get(i).getQuote().getId() == id) {
+                scoreList.add(scores.get(i));
+            }
+        }
+        return scoreList;
+    }
+}
