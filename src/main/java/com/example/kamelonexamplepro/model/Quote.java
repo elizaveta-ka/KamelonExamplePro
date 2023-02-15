@@ -11,8 +11,8 @@ import java.util.List;
 @Table(name = "quotes")
 public class Quote {
     @Id
-    @GeneratedValue
-    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "quote_id", nullable = false, unique = true)
     private int id;
     @Column(name = "score_quote")
     private int score;
@@ -20,10 +20,6 @@ public class Quote {
     @ManyToOne(optional = false, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "user_id")
     private User user;
-
-    @OneToMany(mappedBy = "historyScore", fetch = FetchType.EAGER)
-    @Fetch(value = FetchMode.SUBSELECT)
-    private Collection<Score> historyScores;
 
     public Quote () {
     }
@@ -58,11 +54,4 @@ public class Quote {
         this.user = user;
     }
 
-    public Collection<Score> getHistoryScores() {
-        return historyScores;
-    }
-
-    public void setHistoryScores(Collection<Score> historyScores) {
-        this.historyScores = historyScores;
-    }
 }

@@ -4,13 +4,13 @@ package com.example.kamelonexamplepro.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "Users")
+@Table(name = "users")
 public class User {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id", nullable = false)
-    private int Id;
+    private int id;
 
     @Column(name = "user_name")
     private String name;
@@ -25,18 +25,18 @@ public class User {
     }
 
     public User(int id, String name, String login, String password) {
-        Id = id;
+        this.id = id;
         this.name = name;
         this.login = login;
         this.password = password;
     }
 
     public int getId() {
-        return Id;
+        return id;
     }
 
     public void setId(int id) {
-        Id = id;
+        this.id = id;
     }
 
     public String getName() {
@@ -67,7 +67,7 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "Id=" + Id +
+                "id=" + id +
                 ", name='" + name + '\'' +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +

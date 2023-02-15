@@ -17,7 +17,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping(value = "/user", produces = "application/json")
+    @GetMapping(value = "/user")
     private List<User> getAllUsers() {
         return userService.getAllUsers();
     }
