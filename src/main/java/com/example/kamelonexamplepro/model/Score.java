@@ -1,8 +1,6 @@
 package com.example.kamelonexamplepro.model;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDateTime;
 
@@ -10,7 +8,7 @@ import java.time.LocalDateTime;
 @Table(name = "scores")
 public class Score {
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "score_id")
     private int id;
     @Column(name = "date_score")
@@ -22,7 +20,7 @@ public class Score {
     @JoinColumn(name = "quote_id")
     private Quote quote;
 
-    public Score () {
+    public Score() {
 
     }
 

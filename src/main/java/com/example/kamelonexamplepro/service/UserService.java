@@ -17,8 +17,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User getUserById(int id)
-    {
+    public User getUserById(int id) {
         return userRepository.findById(id).get();
     }
 
@@ -28,8 +27,7 @@ public class UserService {
         return users;
     }
 
-    public void saveOrUpdateUser (User user)
-    {
+    public void saveOrUpdateUser(User user) {
         userRepository.save(user);
     }
 }

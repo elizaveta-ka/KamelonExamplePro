@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import com.example.kamelonexamplepro.service.QuoteService;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -26,16 +24,19 @@ public class QuoteController {
         this.quoteService = quoteService;
         this.scoreService = scoreService;
     }
+
     //get all quotes
     @GetMapping("/quote")
     private List<Quote> getAllQuotes() {
         return quoteService.getAllQuotes();
     }
+
     //get quote
     @GetMapping("/quote/{id}")
     private Quote getQuote(@PathVariable("id") int id) {
-       return quoteService.getQuoteById(id);
+        return quoteService.getQuoteById(id);
     }
+
     //save and update quote
     @PostMapping(value = "/quote", produces = "application/json")
     private ResponseEntity<String> saveQuote(@RequestBody Quote quote) {
@@ -46,11 +47,11 @@ public class QuoteController {
         score.setQuote(quoteNew);
         score.setHistoryScore(quoteNew.getScore());
         scoreService.saveScore(score);
-        return new ResponseEntity<> (HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping(value = "/quote/{id}", produces = "application/json")
-    private void updateQuote(@PathVariable("id") int id,@RequestBody Quote quote) {
+    private void updateQuote(@PathVariable("id") int id, @RequestBody Quote quote) {
         Quote changeQuote = quoteService.getQuoteById(id);
         changeQuote.setScore(quote.getScore());
         quoteService.saveQuote(changeQuote);
@@ -71,14 +72,14 @@ public class QuoteController {
 
     @PostMapping("/down/quote/{id}")
     private void downScore(@PathVariable("id") int id) {
-    Quote quote = quoteService.getQuoteById(id);
-    quote.setScore(quoteService.downgradeScore(quote.getScore()));
+        Quote quote = quoteService.getQuoteById(id);
+        quote.setScore(quoteService.downgradeScore(quote.getScore()));
         Score score = new Score();
         score.setDate(LocalDateTime.now());
         score.setQuote(quote);
         score.setHistoryScore(quote.getScore());
         scoreService.saveScore(score);
-    quoteService.saveQuote(quote);
+        quoteService.saveQuote(quote);
     }
 
     @PostMapping("/up/quote/{id}")
@@ -92,9 +93,10 @@ public class QuoteController {
         scoreService.saveScore(score);
         quoteService.saveQuote(quote);
     }
+
     //10 best quotes
     @GetMapping("/scores")
-    private List<Quote> bestQuotes(){
+    private List<Quote> bestQuotes() {
         return quoteService.bestQuotes();
     }
 

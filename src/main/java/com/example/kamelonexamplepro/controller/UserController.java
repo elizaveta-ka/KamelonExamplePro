@@ -29,8 +29,7 @@ public class UserController {
 
     //create new User
     @PostMapping(value = "/user")
-    private int saveUser(@RequestBody User user)
-    {
+    private int saveUser(@RequestBody User user) {
         userService.saveOrUpdateUser(user);
         return user.getId();
     }

@@ -23,11 +23,11 @@ public class QuoteService {
         return quotes;
     }
 
-    public Quote getQuoteById(int id){
+    public Quote getQuoteById(int id) {
         return quoteRepository.findById(id).get();
     }
 
-    public void saveQuote(Quote quote){
+    public void saveQuote(Quote quote) {
         quoteRepository.save(quote);
     }
 
@@ -36,7 +36,7 @@ public class QuoteService {
     }
 
     //voting on quotes
-    public int increaseScore(int score){
+    public int increaseScore(int score) {
         return score += 1;
     }
 
@@ -44,7 +44,7 @@ public class QuoteService {
         return score -= 1;
     }
 
-    public List<Quote> bestQuotes () {
+    public List<Quote> bestQuotes() {
         List<Quote> quoteList = new ArrayList<>();
         quoteRepository.findAll().forEach(quote -> quoteList.add(quote));
         List<Quote> bestQuotes = new ArrayList<>();
@@ -59,7 +59,6 @@ public class QuoteService {
                 bestQuotes.add(quoteList.get(i));
             }
             return bestQuotes;
-        }
-        else return quoteList;
-        }
+        } else return quoteList;
+    }
 }
