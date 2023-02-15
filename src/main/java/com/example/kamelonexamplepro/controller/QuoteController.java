@@ -37,11 +37,11 @@ public class QuoteController {
     //save and update quote
     @PostMapping(value = "/quote", produces = "application/json")
     private int saveQuote(@RequestBody Quote quote) {
+        quoteService.saveOrUpdate(quote);
         Score score = new Score();
         score.setDate(LocalDateTime.now());
         score.setQuote(quote);
         score.setHistoryScore(quote.getScore());
-        quoteService.saveOrUpdate(quote);
         scoreService.saveScore(score);
         return quote.getId();
     }
