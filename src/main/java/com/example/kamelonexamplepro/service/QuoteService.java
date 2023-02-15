@@ -27,7 +27,7 @@ public class QuoteService {
         return quoteRepository.findById(id).get();
     }
 
-    public void saveOrUpdate(Quote quote){
+    public void saveQuote(Quote quote){
         quoteRepository.save(quote);
     }
 

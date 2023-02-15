@@ -27,6 +27,15 @@ public class ScoreService {
         scoreRepository.save(score);
     }
 
+    public void deleteScoreByQuoteId(int id) {
+        List<Score> scores = scoreRepository.findAll();
+        for (int i = 0; i < scores.size(); i++) {
+            if (scores.get(i).getQuote().getId() == id) {
+                scoreRepository.delete(scores.get(i));
+            }
+        }
+    }
+
     public List<Score> getAllScores() {
         List<Score> scores = new ArrayList<>();
         scoreRepository.findAll().forEach(score -> scores.add(score));

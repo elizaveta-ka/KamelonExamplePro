@@ -4,6 +4,8 @@ import com.example.kamelonexamplepro.model.Quote;
 import com.example.kamelonexamplepro.model.Score;
 import com.example.kamelonexamplepro.service.ScoreService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.example.kamelonexamplepro.service.QuoteService;
 
@@ -36,19 +38,34 @@ public class QuoteController {
     }
     //save and update quote
     @PostMapping(value = "/quote", produces = "application/json")
-    private int saveQuote(@RequestBody Quote quote) {
-        quoteService.saveOrUpdate(quote);
+    private ResponseEntity<String> saveQuote(@RequestBody Quote quote) {
+        Quote quoteNew = new Quote(quote.getScore(), quote.getUser());
+        quoteService.saveQuote(quoteNew);
+        Score score = new Score();
+        score.setDate(LocalDateTime.now());
+        score.setQuote(quoteNew);
+        score.setHistoryScore(quoteNew.getScore());
+        scoreService.saveScore(score);
+        return new ResponseEntity<> (HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/quote/{id}", produces = "application/json")
+    private void updateQuote(@PathVariable("id") int id,@RequestBody Quote quote) {
+        Quote changeQuote = quoteService.getQuoteById(id);
+        changeQuote.setScore(quote.getScore());
+        quoteService.saveQuote(changeQuote);
         Score score = new Score();
         score.setDate(LocalDateTime.now());
         score.setQuote(quote);
         score.setHistoryScore(quote.getScore());
         scoreService.saveScore(score);
-        return quote.getId();
     }
 
+
     //delete quote
-    @DeleteMapping("/quote/{id}")
+    @DeleteMapping("delete/quote/{id}")
     private void deleteQuote(@PathVariable("id") int id) {
+        scoreService.deleteScoreByQuoteId(id);
         quoteService.deleteQuote(id);
     }
 
@@ -61,7 +78,7 @@ public class QuoteController {
         score.setQuote(quote);
         score.setHistoryScore(quote.getScore());
         scoreService.saveScore(score);
-    quoteService.saveOrUpdate(quote);
+    quoteService.saveQuote(quote);
     }
 
     @PostMapping("/up/quote/{id}")
@@ -73,7 +90,7 @@ public class QuoteController {
         score.setQuote(quote);
         score.setHistoryScore(quote.getScore());
         scoreService.saveScore(score);
-        quoteService.saveOrUpdate(quote);
+        quoteService.saveQuote(quote);
     }
     //10 best quotes
     @GetMapping("/scores")
